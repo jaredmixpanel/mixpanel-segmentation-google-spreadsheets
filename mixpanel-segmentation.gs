@@ -36,20 +36,21 @@ var TO_DATE = getMixpanelDateYesterday();
 /**
  * Step 4) Define Segmentation Queries - Get data for an event, segmented and filtered by properties.
  *
- * Format is: 'Sheet Name' : [ 'event', 'where', 'type', 'unit' ],
+ * Format is: 'Sheet Name' : [ 'event', 'where', 'on', type', 'unit' ],
  *
- * For example: 'Sign Ups' : [ '$signup', '(properties["Platform"])=="iPhone" and (properties["mp_country_code"])=="GB"', 'general', 'day' ],
+ * For example: 'Sign Ups' : [ '$signup', '(properties["Platform"])=="iPhone" and (properties["mp_country_code"])=="GB"', 'properties["Org Name"]', 'general', 'day' ],
  *
  * For full details on Segmentation Queries https://mixpanel.com/docs/api-documentation/data-export-api#segmentation-default
  * Sheet Name - What you want the sheet with your data to be called.
  * event - The event that you wish to segment on.
- * where - The property expression to segment the event on.
+ * where - The property expression used to filter the events.
+ * on   - The property to segment BY
  * type - This can be 'general', 'unique', or 'average'.
  * unit - This can be 'minute', 'hour', 'day', or 'month'.
  */
 var API_PARAMETERS = {
-    'Sheet 1' : [ 'event', 'where', 'type', 'unit' ],
-    'Sheet 2' :  [ 'event', 'where', 'type', 'unit' ],
+    'Sheet 1' : [ 'event', 'where', 'on', 'type', 'unit' ],
+    'Sheet 2' :  [ 'event', 'where', 'on', 'type', 'unit' ],
 };
 
 /**
@@ -192,8 +193,9 @@ function getApiParameters(expires, sheetName) {
         'expire=' + expires,
         'event=' + parametersEntry[0],
         'where=' + parametersEntry[1],
-        'type=' + parametersEntry[2],
-        'unit=' + parametersEntry[3],
+        'on=' + parametersEntry[2],
+        'type=' + parametersEntry[3],
+        'unit=' + parametersEntry[4],
         'from_date=' + FROM_DATE,
         'to_date=' + TO_DATE
     ];
